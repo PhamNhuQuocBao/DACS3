@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/trangchu"
+        android:icon="@drawable/ic_algorithm"
+        android:title="Trang chủ" />
+
+    <item
+        android:id="@+id/tao"
+        android:icon="@drawable/baseline_add_circle_24"
+        android:title="Tạo" />
+
+    <item
+        android:id="@+id/thuvien"
+        android:icon="@drawable/baseline_video_library_24"
+        android:title="Thư viện" />
+</menu>
