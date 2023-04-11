@@ -18,6 +18,7 @@ import com.example.kintube.VideoAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.google.android.gms.drive.*;
 
 
 /**
@@ -84,12 +85,16 @@ public class TrangchuFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(false);
 
-
+        String url = "https://drive.google.com/file/d/1g1VEYOdD7I7CGnagiO4pgTqdw_HivtKw/view?usp=sharing";
+        String[] parts = url.split("/");
+        String videoId = parts[5];
 
         // Load video list
         videoList = new ArrayList<>();
         videoList.add(new Video(R.drawable.twotone_slow_motion_video_24,"Video1","15:30",R.drawable.twotone_slow_motion_video_24,"android.resource://res/" + R.raw.video1));
-        videoList.add(new Video(R.drawable.twotone_slow_motion_video_24,"Video2","15:30",R.drawable.twotone_slow_motion_video_24,"https://drive.google.com/drive/folders/1lEBV_ZrGkKgNpMSVhAnkh5FfWW6TueWQ?usp=sharing"));
+        videoList.add(new Video(R.drawable.twotone_slow_motion_video_24,"Video2","15:30",R.drawable.twotone_slow_motion_video_24,"android.resource://res/" + R.raw.video2));
+        videoList.add(new Video(R.drawable.twotone_slow_motion_video_24,"Video3","15:30",R.drawable.twotone_slow_motion_video_24,"https://drive.google.com/uc?id=1R6hFYl3FgL966Jc2-rd_vdJKIZlGcM4h"));
+        videoList.add(new Video(R.drawable.twotone_slow_motion_video_24,"Video4","15:30",R.drawable.twotone_slow_motion_video_24,"https://drive.google.com/uc?id="+videoId));
         // Set up Adapter
         adapter = new VideoAdapter(videoList, getActivity());
         recyclerView.setAdapter(adapter);
