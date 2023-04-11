@@ -19,14 +19,14 @@
 
         <Button
             android:id="@+id/button2"
-            android:layout_width="401dp"
+            android:layout_width="398dp"
             android:layout_height="71dp"
             android:layout_margin="5dp"
             android:text="THÊM MỚI" />
 
         <Button
             android:id="@+id/button3"
-            android:layout_width="match_parent"
+            android:layout_width="401dp"
             android:layout_height="69dp"
             android:layout_margin="5dp"
             android:text="DANH SÁCH CỦA BẠN" />

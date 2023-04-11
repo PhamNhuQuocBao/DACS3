@@ -48,15 +48,14 @@ public class MainActivity extends AppCompatActivity {
             case R.id.login:
                 Toast.makeText(this,"Login",Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.logout:
-                Toast.makeText(this,"Logout",Toast.LENGTH_SHORT).show();
+            case R.id.Register:
+                Toast.makeText(this,"Register",Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
         }
         return true;
     }
-
     private final BottomNavigationView.OnNavigationItemSelectedListener navListener = item -> {
         // By using switch we can easily get
         // the selected fragment
