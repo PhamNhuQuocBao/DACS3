@@ -1,5 +1,6 @@
 package com.example.kintube.Fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,6 +19,7 @@ import com.example.kintube.VideoAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link TrangchuFragment#newInstance} factory method to
@@ -27,6 +29,8 @@ public class TrangchuFragment extends Fragment {
     private RecyclerView recyclerView;
     private VideoAdapter adapter;
     private List<Video> videoList;
+
+
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -80,18 +84,17 @@ public class TrangchuFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(false);
 
+
+
         // Load video list
         videoList = new ArrayList<>();
-        videoList.add(new Video(R.drawable.twotone_slow_motion_video_24,"Video1",R.drawable.twotone_slow_motion_video_24));
-        videoList.add(new Video(R.drawable.twotone_slow_motion_video_24,"Video1",R.drawable.twotone_slow_motion_video_24));
-        videoList.add(new Video(R.drawable.twotone_slow_motion_video_24,"Video1",R.drawable.twotone_slow_motion_video_24));
-        videoList.add(new Video(R.drawable.twotone_slow_motion_video_24,"Video1",R.drawable.twotone_slow_motion_video_24));
-
-
+        videoList.add(new Video(R.drawable.twotone_slow_motion_video_24,"Video1","15:30",R.drawable.twotone_slow_motion_video_24,"android.resource://res/" + R.raw.video1));
+        videoList.add(new Video(R.drawable.twotone_slow_motion_video_24,"Video2","15:30",R.drawable.twotone_slow_motion_video_24,"https://drive.google.com/drive/folders/1lEBV_ZrGkKgNpMSVhAnkh5FfWW6TueWQ?usp=sharing"));
         // Set up Adapter
-        adapter = new VideoAdapter(videoList);
+        adapter = new VideoAdapter(videoList, getActivity());
         recyclerView.setAdapter(adapter);
-
         return rootView;
     }
+
+
 }
