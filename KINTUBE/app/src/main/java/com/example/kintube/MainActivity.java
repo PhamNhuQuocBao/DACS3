@@ -1,9 +1,14 @@
 package com.example.kintube;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +23,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         // fragment should be shown to the user
         // in this case it is algorithm fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TrangchuFragment()).commit();
+
     }
 
 
@@ -46,13 +53,15 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id){
             case R.id.login:
-                Toast.makeText(this,"Login",Toast.LENGTH_SHORT).show();
+                Intent intentLogin = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intentLogin);
                 break;
             case R.id.Register:
-                Toast.makeText(this,"Register",Toast.LENGTH_SHORT).show();
+                Intent intentRegister = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intentRegister);
                 break;
             default:
-                break;
+                return super.onOptionsItemSelected(item);
         }
         return true;
     }
