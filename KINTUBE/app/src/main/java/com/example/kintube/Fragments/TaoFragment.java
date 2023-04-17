@@ -1,5 +1,7 @@
 package com.example.kintube.Fragments;
 
+
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,8 +9,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 
+
+import com.example.kintube.MainActivity;
 import com.example.kintube.R;
+import com.example.kintube.RegisterActivity;
+import com.example.kintube.UploadVideo;
 
 
 /**
@@ -17,6 +25,7 @@ import com.example.kintube.R;
  * create an instance of this fragment.
  */
 public class TaoFragment extends Fragment {
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -62,6 +71,18 @@ public class TaoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tao, container, false);
+        View view = inflater.inflate(R.layout.fragment_tao, container, false);
+        Button button = (Button) view.findViewById(R.id.uploadVideo);
+        // Gắn sự kiện cho Button
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UploadVideo.class);
+                startActivity(intent);
+
+            }
+        });
+        return view;
     }
+
 }

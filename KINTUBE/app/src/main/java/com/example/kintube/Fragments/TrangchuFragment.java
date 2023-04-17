@@ -85,9 +85,9 @@ public class TrangchuFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(false);
 
-        String url = "https://drive.google.com/file/d/1g1VEYOdD7I7CGnagiO4pgTqdw_HivtKw/view?usp=sharing";
-        String[] parts = url.split("/");
-        String videoId = parts[5];
+            String url = "https://drive.google.com/file/d/1g1VEYOdD7I7CGnagiO4pgTqdw_HivtKw/view?usp=sharing";
+            String[] parts = url.split("/");
+            String videoId = parts[5];
 
         // Load video list
         videoList = new ArrayList<>();
