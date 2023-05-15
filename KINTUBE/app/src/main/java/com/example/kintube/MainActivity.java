@@ -14,14 +14,12 @@ import com.example.kintube.Fragments.TrangchuFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
@@ -29,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         // fragment should be shown to the user
         // in this case it is algorithm fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TrangchuFragment()).commit();
+
 
     }
 

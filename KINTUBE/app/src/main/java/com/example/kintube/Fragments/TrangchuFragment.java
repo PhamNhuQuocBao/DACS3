@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.kintube.Database.VideoDatabase;
 import com.example.kintube.R;
-import com.example.kintube.Video;
-import com.example.kintube.VideoAdapter;
+import com.example.kintube.Model.Video.Video;
+import com.example.kintube.Model.Video.VideoAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +23,6 @@ public class TrangchuFragment extends Fragment {
     private String root_path = "android.resource://res/";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -59,22 +59,9 @@ public class TrangchuFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setNestedScrollingEnabled(false);
 
-        String url = "https://drive.google.com/file/d/1g1VEYOdD7I7CGnagiO4pgTqdw_HivtKw/view?usp=sharing";
-        String[] parts = url.split("/");
-        String videoId = parts[5];
-
         // Load video list
         videoList = new ArrayList<>();
-        Video vd = new Video();
-        vd.setImageVideo(R.drawable.twotone_slow_motion_video_24);
-        vd.setTitle("Kamen Rider");
-        vd.setDescription("");
-        vd.setDuration("15:30");
-        vd.setFile_path("");
-        vd.setUpload_date("20-12-2002");
-        vd.setImageVideoUser(R.drawable.twotone_slow_motion_video_24);
-        vd.setFile_path(root_path + R.raw.video1);
-        videoList.add(vd);
+        videoList = VideoDatabase.getInstance(this.getContext()).videoDAO().getListVideo();
         // Set up Adapter
         adapter = new VideoAdapter(videoList, getActivity());
         recyclerView.setAdapter(adapter);

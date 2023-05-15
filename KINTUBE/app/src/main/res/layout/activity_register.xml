@@ -56,7 +56,7 @@
 
 
                 <EditText
-                    android:id="@+id/editTextTextEmailAddress"
+                    android:id="@+id/edtEmailRegister"
                     android:layout_width="268dp"
                     android:layout_height="53dp"
                     android:layout_marginLeft="10dp"
@@ -90,7 +90,7 @@
                     tools:layout_editor_absoluteY="440dp" />
 
                 <EditText
-                    android:id="@+id/editTextTextPassword"
+                    android:id="@+id/edtPasswordRegister"
                     android:layout_width="265dp"
                     android:layout_height="49dp"
                     android:layout_marginLeft="10dp"
@@ -124,7 +124,7 @@
                 tools:layout_editor_absoluteY="440dp" />
 
             <EditText
-                android:id="@+id/nhaplaimatkhau"
+                android:id="@+id/edtPasswordAgainRegister"
                 android:layout_width="265dp"
                 android:layout_height="49dp"
                 android:layout_marginLeft="10dp"
@@ -150,7 +150,7 @@
                 android:layout_marginLeft="15dp">
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btnRegister"
                     android:layout_width="222dp"
                     android:layout_height="59dp"
                     android:backgroundTint="@color/green"

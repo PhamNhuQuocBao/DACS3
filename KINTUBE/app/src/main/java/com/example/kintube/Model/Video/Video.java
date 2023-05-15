@@ -1,31 +1,39 @@
-package com.example.kintube;
+package com.example.kintube.Model.Video;
 
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
+import com.example.kintube.Model.Video.User.User;
+
+@Entity(tableName = "VIDEO")
 public class Video {
-    private Integer imageVideo;
-    private Integer imageVideoUser;
-    private String id;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String title;
     private String description;
-    private String duration;
     private String file_path;
     private String upload_date;
+//    @ForeignKey()
     private String user_id;
+    private String imageVideo;
+    private Integer imageVideoUser;
 
     public Video() {
     }
-    public Integer getImageVideo() {
+    public String getImageVideo() {
         return imageVideo;
     }
 
-    public void setImageVideo(Integer imageVideo) {
+    public void setImageVideo(String imageVideo) {
         this.imageVideo = imageVideo;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -43,14 +51,6 @@ public class Video {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
     }
 
     public String getFile_path() {

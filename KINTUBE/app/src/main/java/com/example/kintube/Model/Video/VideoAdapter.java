@@ -1,4 +1,4 @@
-package com.example.kintube;
+package com.example.kintube.Model.Video;
 
 
 import android.content.Context;
@@ -10,6 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.example.kintube.R;
+import com.example.kintube.VideoPlayerActivity;
+
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
@@ -32,11 +37,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull VideoAdapter.ViewHolder holder, int position) {
         Video video = videoList.get(position);
-        holder.imageVideo.setImageResource(video.getImageVideo());
+        holder.imageVideo.setImageResource(R.drawable.baseline_video_library_24);
         holder.titleVideo.setText(video.getTitle());
         holder.dateCreateAtVideo.setText(video.getUpload_date());
-        holder.imageUserVieo.setImageResource(video.getImageVideoUser());
-//        Glide.with(context).load(video.getUrlVideo()).into(holder.imageVideo);
+        holder.imageUserVieo.setImageResource(R.drawable.baseline_video_library_24);
+        Glide.with(context).load(video.getFile_path()).into(holder.imageVideo);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
