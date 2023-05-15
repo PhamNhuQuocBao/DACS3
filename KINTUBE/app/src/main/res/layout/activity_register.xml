@@ -61,7 +61,40 @@
                     android:layout_height="53dp"
                     android:layout_marginLeft="10dp"
                     android:ems="10"
-                    android:hint="Email"
+                    android:hint="Địa chỉ email"
+                    android:inputType="textEmailAddress"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="101dp"
+                    tools:layout_editor_absoluteY="358dp" />
+            </LinearLayout>
+        </LinearLayout> <LinearLayout
+            style="@style/MaterialAlertDialog.Material3.Body.Text.CenterStacked"
+            android:layout_width="match_parent"
+            android:layout_height="73dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp">
+
+                <ImageView
+                    android:id="@+id/nameView"
+                    android:layout_width="53dp"
+                    android:layout_height="53dp"
+                    app:srcCompat="@drawable/baseline_email_24"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="38dp"
+                    tools:layout_editor_absoluteY="358dp" />
+
+
+                <EditText
+                    android:id="@+id/edtNameRegister"
+                    android:layout_width="268dp"
+                    android:layout_height="53dp"
+                    android:layout_marginLeft="10dp"
+                    android:ems="10"
+                    android:hint="Họ và tên"
                     android:inputType="textEmailAddress"
                     tools:ignore="MissingConstraints"
                     tools:layout_editor_absoluteX="101dp"
@@ -95,7 +128,7 @@
                     android:layout_height="49dp"
                     android:layout_marginLeft="10dp"
                     android:ems="10"
-                    android:hint="Password"
+                    android:hint="Mật khẩu"
                     android:inputType="textPassword"
                     tools:ignore="MissingConstraints"
                     tools:layout_editor_absoluteX="105dp"
@@ -129,7 +162,7 @@
                 android:layout_height="49dp"
                 android:layout_marginLeft="10dp"
                 android:ems="10"
-                android:hint="Nhập lại password"
+                android:hint="Nhập lại mật khẩu"
                 android:inputType="textPassword"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="105dp"
@@ -154,7 +187,7 @@
                     android:layout_width="222dp"
                     android:layout_height="59dp"
                     android:backgroundTint="@color/green"
-                    android:text="Register"
+                    android:text="Đăng kí"
                     android:textSize="20dp"
                     tools:ignore="MissingConstraints"
                     tools:layout_editor_absoluteX="108dp"

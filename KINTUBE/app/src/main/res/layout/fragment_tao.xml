@@ -34,22 +34,6 @@
                             android:layout_marginBottom="5dp"
                             android:hint="Description" />
 
-                        <ImageView
-                            android:id="@+id/imageFromGallery"
-                            android:layout_width="match_parent"
-                            android:layout_height="200dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp" />
-
-                        <Button
-                            android:id="@+id/btn_uploadImage"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:padding="18dp"
-                            android:text="Chọn ảnh của video" />
-
                         <VideoView
                             android:id="@+id/videoFromGallery"
                             android:layout_width="match_parent"

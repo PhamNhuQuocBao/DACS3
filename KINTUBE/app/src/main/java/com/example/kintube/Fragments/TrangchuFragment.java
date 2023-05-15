@@ -67,6 +67,4 @@ public class TrangchuFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         return rootView;
     }
-
-
 }

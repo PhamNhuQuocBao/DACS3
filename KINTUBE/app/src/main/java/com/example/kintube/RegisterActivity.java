@@ -1,5 +1,6 @@
 package com.example.kintube;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -46,6 +47,9 @@ public class RegisterActivity extends AppCompatActivity {
                             edtEmail.setText("");
                             edtPassword.setText("");
                             edtPasswordAgain.setText("");
+
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
 
                             Toast.makeText(RegisterActivity.this, "Đăng kí thành công!", Toast.LENGTH_SHORT).show();
                         } else {

@@ -1,5 +1,6 @@
 package com.example.kintube.Model.Video;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
@@ -9,15 +10,16 @@ import com.example.kintube.Model.Video.User.User;
 @Entity(tableName = "VIDEO")
 public class Video {
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private int id;
     private String title;
     private String description;
     private String file_path;
     private String upload_date;
-//    @ForeignKey()
-    private String user_id;
+
+    @ColumnInfo(name = "user_id")
+    private int user_id;
     private String imageVideo;
-    private Integer imageVideoUser;
 
     public Video() {
     }
@@ -69,20 +71,11 @@ public class Video {
         this.upload_date = upload_date;
     }
 
-    public String getUser_id() {
+    public int getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(String user_id) {
+    public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
-
-    public Integer getImageVideoUser() {
-        return imageVideoUser;
-    }
-
-    public void setImageVideoUser(Integer imageVideoUser) {
-        this.imageVideoUser = imageVideoUser;
-    }
-
 }

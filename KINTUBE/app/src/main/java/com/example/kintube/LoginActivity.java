@@ -11,11 +11,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.kintube.DataLocal.DataLocalManager;
 import com.example.kintube.Database.UserDatabase;
 import com.example.kintube.Fragments.TrangchuFragment;
 import com.example.kintube.Model.Video.User.User;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText edtEmail, edtPassword;
@@ -39,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
                 user.setPassword(strPassword);
 
                 if (checkAccount(user)) {
-                    Login();
+                    Login(user);
                 } else {
                     Toast.makeText(LoginActivity.this, "Tài khoản không tồn tại!", Toast.LENGTH_SHORT).show();
                 }
@@ -47,8 +50,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void Login() {
-        Intent intent = new Intent(this, TrangchuFragment.class);
+    private void Login(User user) {
+        DataLocalManager.setIdAccountLogin(String.valueOf(user.getId()));
+        DataLocalManager.setNameAccountLogin(user.getName());
+        DataLocalManager.setEmailAccountLogin(user.getEmail());
+
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show();
     }

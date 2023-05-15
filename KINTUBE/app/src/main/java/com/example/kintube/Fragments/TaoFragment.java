@@ -28,6 +28,7 @@ import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.example.kintube.DataLocal.DataLocalManager;
 import com.example.kintube.Database.VideoDatabase;
 import com.example.kintube.R;
 import com.example.kintube.Model.Video.Video;
@@ -39,6 +40,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 public class TaoFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -47,13 +49,11 @@ public class TaoFragment extends Fragment {
     private UploadTask uploadTask;
     private StorageReference storageRef;
     private VideoView videoFromGallery;
-    private ImageView imageFromGallery;
     private EditText edtName, edtDesc;
-    private Button btnUploadImage, btnUploadVideo, btnPost;
+    private Button btnUploadVideo, btnPost;
     private MediaController mediaController;
-    private String root_path = "android.resource://res/";
-    private Uri uriDataImage, uriDataVideo;
-    private String linkVideo, linkImageVideo;
+    private Uri uriDataVideo;
+    private String linkVideo;
 
     public TaoFragment() {
         // Required empty public constructor
@@ -67,30 +67,6 @@ public class TaoFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-    //Xử lí giao diện chọn ảnh
-    ActivityResultLauncher<Intent> activityResultLauncherImage = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        if (data == null) {
-                            return;
-                        }
-                        uriDataImage = data.getData();
-                        try {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uriDataImage);
-                            ImageView imageFromGallery = (ImageView) getView().findViewById(R.id.imageFromGallery);
-                            imageFromGallery.setImageBitmap(bitmap);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-    );
 
     //Xử lí giao diện chọn video
     ActivityResultLauncher<Intent> activityResultLauncherVideo = registerForActivityResult(
@@ -132,8 +108,6 @@ public class TaoFragment extends Fragment {
         edtName = (EditText) view.findViewById(R.id.edt_name);
         edtDesc = (EditText) view.findViewById(R.id.edt_description);
         videoFromGallery = (VideoView) view.findViewById(R.id.videoFromGallery);
-        imageFromGallery = (ImageView) view.findViewById(R.id.imageFromGallery);
-        btnUploadImage = (Button) view.findViewById(R.id.btn_uploadImage);
         btnUploadVideo = (Button) view.findViewById(R.id.btn_uploadVideo);
         btnPost = (Button) view.findViewById(R.id.btn_post);
         // Gắn sự kiện cho Button
@@ -144,26 +118,18 @@ public class TaoFragment extends Fragment {
             }
         });
 
-        btnUploadImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openGalleryImage();
-            }
-        });
-
         btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!(uriDataImage == null) && !(uriDataVideo == null)) {
+                if (!(uriDataVideo == null)) {
                     ProgressDialog progressDialog = new ProgressDialog(getView().getContext());
                     progressDialog.setTitle("Đang tải lên...");
                     progressDialog.show();
 
                     storageRef = FirebaseStorage.getInstance().getReference();
-                    StorageReference imageRef = storageRef.child("images/" + System.currentTimeMillis());
                     StorageReference videoRef = storageRef.child("video/" + System.currentTimeMillis());
 
-                    uploadTask = imageRef.putFile(uriDataImage);
+                    uploadTask = videoRef.putFile(uriDataVideo);
                     uploadTask.addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
@@ -172,38 +138,19 @@ public class TaoFragment extends Fragment {
                             progressDialog.dismiss();
                         }
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @RequiresApi(api = Build.VERSION_CODES.O)
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            videoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    linkImageVideo = uri.toString();
+                                    linkVideo = uri.toString();
+                                    addNewVideo();
                                 }
                             });
-                            uploadTask = videoRef.putFile(uriDataVideo);
-                            uploadTask.addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception exception) {
-                                    // Handle unsuccessful uploads
-                                    Toast.makeText(view.getContext(), "Đã có lỗi xảy ra, vui lòng thử lại!!!", Toast.LENGTH_SHORT).show();
-                                    progressDialog.dismiss();
-                                }
-                            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                @RequiresApi(api = Build.VERSION_CODES.O)
-                                @Override
-                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                    videoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            linkVideo = uri.toString();
-                                            addNewVideo();
-                                        }
-                                    });
 
-                                    Toast.makeText(view.getContext(), "Đã xong!!!", Toast.LENGTH_SHORT).show();
-                                    progressDialog.dismiss();
-                                }
-                            });
+                            Toast.makeText(view.getContext(), "Đã xong!!!", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
                         }
                     });
                 } else {
@@ -224,27 +171,20 @@ public class TaoFragment extends Fragment {
         }
 
         LocalDateTime currentDateTime = LocalDateTime.now();
-
+        String id = DataLocalManager.getIdAccountLogin();
+        System.out.println("id account is: " + id);
 
         Video video = new Video();
         video.setTitle(strName);
         video.setDescription(strDesc);
         video.setUpload_date(String.valueOf(currentDateTime));
         video.setFile_path(linkVideo);
-        video.setImageVideo(linkImageVideo);
+        video.setUser_id(Integer.parseInt(id));
 
         VideoDatabase.getInstance(getView().getContext()).videoDAO().insertVideo(video);
 
         edtName.setText("");
         edtDesc.setText("");
-    }
-
-
-    private void openGalleryImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        activityResultLauncherImage.launch(Intent.createChooser(intent, "Select Picture"));
     }
 
     private void openGalleryVideo() {

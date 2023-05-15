@@ -12,4 +12,7 @@ public interface VideoDAO {
     void insertVideo(Video video);
     @Query("SELECT * FROM VIDEO")
     List<Video> getListVideo();
+
+    @Query("SELECT * FROM VIDEO WHERE title = :search")
+    List<Video> getListVideoSearch(String search);
 }

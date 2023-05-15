@@ -61,7 +61,7 @@
                     android:layout_height="53dp"
                     android:layout_marginLeft="10dp"
                     android:ems="10"
-                    android:hint="Email"
+                    android:hint="Địa chỉ email"
                     android:inputType="textEmailAddress"
                     tools:ignore="MissingConstraints"
                     tools:layout_editor_absoluteX="101dp"
@@ -97,7 +97,7 @@
                     android:layout_height="49dp"
                     android:layout_marginLeft="10dp"
                     android:ems="10"
-                    android:hint="Password"
+                    android:hint="Mật khẩu"
                     android:inputType="textPassword"
                     tools:ignore="MissingConstraints"
                     tools:layout_editor_absoluteX="105dp"
@@ -123,7 +123,7 @@
                     android:layout_width="222dp"
                     android:layout_height="59dp"
                     android:backgroundTint="@color/green"
-                    android:text="Login"
+                    android:text="Đăng nhập"
                     android:textSize="20dp"
                     tools:ignore="MissingConstraints"
                     tools:layout_editor_absoluteX="108dp"
@@ -147,7 +147,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
-                    android:text="Forgot password"
+                    android:text="Quên mật khẩu"
                     android:textColor="@color/black" />
 
                 <Button
@@ -156,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:backgroundTint="@color/white"
-                    android:text="Register"
+                    android:text="Đăng kí"
                     android:textColor="@color/black" />
             </LinearLayout>
         </LinearLayout>
