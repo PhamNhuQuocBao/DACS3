@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/imageVideo"
-        android:layout_width="396dp"
+        android:layout_width="match_parent"
         android:layout_height="198dp"></ImageView>
 
     <LinearLayout
@@ -18,7 +18,7 @@
             android:id="@+id/imageUserVideo"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:layout_margin="6dp" />
+            android:layout_margin="1dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
