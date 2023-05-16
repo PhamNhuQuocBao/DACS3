@@ -17,9 +17,9 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
-    private EditText edtEmail, edtPassword, edtPasswordAgain;
+    private EditText edtEmail, edtName, edtPassword, edtPasswordAgain;
     private Button btnRegister;
-    private String strEmail, strPassword, strPasswordAgain;
+    private String strEmail, strName, strPassword, strPasswordAgain;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,34 +31,40 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 strEmail = edtEmail.getText().toString().trim();
+                strName = edtName.getText().toString().trim();
                 strPassword = edtPassword.getText().toString().trim();
                 strPasswordAgain = edtPasswordAgain.getText().toString().trim();
 
                 if (isValidEmail(strEmail)) {
-                    if (Objects.equals(strPassword, strPasswordAgain)) {
-                        User user = new User();
-                        user.setName("");
-                        user.setEmail(strEmail);
-                        user.setPassword(strPassword);
+                    if (strName.equals("")) {
+                        Toast.makeText(RegisterActivity.this, "Vui lòng nhập tên của bạn!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (Objects.equals(strPassword, strPasswordAgain)) {
+                            User user = new User();
+                            user.setName(strName);
+                            user.setEmail(strEmail);
+                            user.setPassword(strPassword);
 
-                        if (!checkAccountExists(user)) {
-                            UserDatabase.getInstance(RegisterActivity.this).userDAO().insertUser(user);
+                            if (!checkAccountExists(user)) {
+                                UserDatabase.getInstance(RegisterActivity.this).userDAO().insertUser(user);
 
-                            edtEmail.setText("");
-                            edtPassword.setText("");
-                            edtPasswordAgain.setText("");
+                                edtEmail.setText("");
+                                edtName.setText("");
+                                edtPassword.setText("");
+                                edtPasswordAgain.setText("");
 
-                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                            startActivity(intent);
+                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                startActivity(intent);
 
-                            Toast.makeText(RegisterActivity.this, "Đăng kí thành công!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "Đăng kí thành công!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "Tài khoản đã tồn tại!", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                         } else {
-                            Toast.makeText(RegisterActivity.this, "Tài khoản đã tồn tại!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Mật khẩu không trùng khớp!", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                    } else {
-                        Toast.makeText(RegisterActivity.this, "Mật khẩu không trùng khớp!", Toast.LENGTH_SHORT).show();
-                        return;
                     }
                 } else {
                     Toast.makeText(RegisterActivity.this, "Địa chỉ email không hợp lệ!", Toast.LENGTH_SHORT).show();
@@ -71,6 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
     //khởi tạo các giá trị UI
     public void units() {
         edtEmail = findViewById(R.id.edtEmailRegister);
+        edtName = findViewById(R.id.edtNameRegister);
         edtPassword = findViewById(R.id.edtPasswordRegister);
         edtPasswordAgain = findViewById(R.id.edtPasswordAgainRegister);
         btnRegister = findViewById(R.id.btnRegister);

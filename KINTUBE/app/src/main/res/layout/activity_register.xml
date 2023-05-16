@@ -82,7 +82,7 @@
                     android:id="@+id/nameView"
                     android:layout_width="53dp"
                     android:layout_height="53dp"
-                    app:srcCompat="@drawable/baseline_email_24"
+                    app:srcCompat="@drawable/profile_default_black"
                     tools:ignore="MissingConstraints"
                     tools:layout_editor_absoluteX="38dp"
                     tools:layout_editor_absoluteY="358dp" />

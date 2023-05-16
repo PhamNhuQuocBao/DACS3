@@ -39,6 +39,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -121,40 +122,44 @@ public class TaoFragment extends Fragment {
         btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!(uriDataVideo == null)) {
-                    ProgressDialog progressDialog = new ProgressDialog(getView().getContext());
-                    progressDialog.setTitle("Đang tải lên...");
-                    progressDialog.show();
+                if (DataLocalManager.getIdAccountLogin() != "") {
+                    if (!(uriDataVideo == null)) {
+                        ProgressDialog progressDialog = new ProgressDialog(getView().getContext());
+                        progressDialog.setTitle("Đang tải lên...");
+                        progressDialog.show();
 
-                    storageRef = FirebaseStorage.getInstance().getReference();
-                    StorageReference videoRef = storageRef.child("video/" + System.currentTimeMillis());
+                        storageRef = FirebaseStorage.getInstance().getReference();
+                        StorageReference videoRef = storageRef.child("video/" + System.currentTimeMillis());
 
-                    uploadTask = videoRef.putFile(uriDataVideo);
-                    uploadTask.addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle unsuccessful uploads
-                            Toast.makeText(view.getContext(), "Đã có lỗi xảy ra, vui lòng thử lại!!!", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                        }
-                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @RequiresApi(api = Build.VERSION_CODES.O)
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            videoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    linkVideo = uri.toString();
-                                    addNewVideo();
-                                }
-                            });
+                        uploadTask = videoRef.putFile(uriDataVideo);
+                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle unsuccessful uploads
+                                Toast.makeText(view.getContext(), "Đã có lỗi xảy ra, vui lòng thử lại!!!", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                videoRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        linkVideo = uri.toString();
+                                        addNewVideo();
+                                    }
+                                });
 
-                            Toast.makeText(view.getContext(), "Đã xong!!!", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                        }
-                    });
+                                Toast.makeText(view.getContext(), "Đã xong!!!", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getView().getContext(), "Vui lòng chọn ảnh và video!!!", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(getView().getContext(), "Vui lòng chọn ảnh và video!!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TaoFragment.this.getContext(), "Vui lòng đăng nhập trước khi đăng tải video!", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -170,7 +175,8 @@ public class TaoFragment extends Fragment {
             return;
         }
 
-        LocalDateTime currentDateTime = LocalDateTime.now();
+//        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDate currentDateTime = LocalDate.now();
         String id = DataLocalManager.getIdAccountLogin();
         System.out.println("id account is: " + id);
 
