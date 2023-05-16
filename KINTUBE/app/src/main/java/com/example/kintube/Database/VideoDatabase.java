@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.kintube.Model.Video.Video;
 
-@Database(entities = {Video.class}, version = 1)
+@Database(entities = {Video.class}, version = 2)
 public abstract class VideoDatabase extends RoomDatabase {
     private static final String DB_NAME = "kintube.db";
     private static VideoDatabase instance;
