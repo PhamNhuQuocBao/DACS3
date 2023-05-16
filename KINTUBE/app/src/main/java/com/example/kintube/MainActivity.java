@@ -81,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intentRegister = new Intent(MainActivity.this, RegisterActivity.class);
                 startActivity(intentRegister);
                 break;
+            case R.id.Profile:
+                Intent intentProfile = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intentProfile);
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
