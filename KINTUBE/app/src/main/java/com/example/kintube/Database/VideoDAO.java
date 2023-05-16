@@ -15,4 +15,6 @@ public interface VideoDAO {
 
     @Query("SELECT * FROM VIDEO WHERE title = :search")
     List<Video> getListVideoSearch(String search);
+
+//    @Query("SELECT *")
 }

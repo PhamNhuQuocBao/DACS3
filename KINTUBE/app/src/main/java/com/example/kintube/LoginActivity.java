@@ -21,9 +21,10 @@ import java.util.List;
 import java.util.Set;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText edtEmail, edtPassword;
+    private EditText edtEmail, edtName, edtPassword;
     private Button btnRegister, btnLogin;
-    private String strEmail, strPassword;
+    private String strEmail, strName, strPassword;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
@@ -48,12 +49,24 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void Login(User user) {
-        DataLocalManager.setIdAccountLogin(String.valueOf(user.getId()));
-        DataLocalManager.setNameAccountLogin(user.getName());
-        DataLocalManager.setEmailAccountLogin(user.getEmail());
+        List<User> accounts = UserDatabase.getInstance(this).userDAO().getUserByEmail(user.getEmail());
+        for (User account : accounts) {
+            System.out.println("Info: " + account.getId() + account.getEmail() + account.getName());
+            DataLocalManager.setIdAccountLogin(String.valueOf(account.getId()));
+            DataLocalManager.setNameAccountLogin(account.getName());
+            DataLocalManager.setEmailAccountLogin(account.getEmail());
+        }
 
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);

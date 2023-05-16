@@ -1,10 +1,13 @@
 package com.example.kintube.Database;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.kintube.Model.Video.User.User;
 import com.example.kintube.Model.Video.Video;

@@ -1,6 +1,9 @@
 package com.example.kintube;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +28,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
+    private VideoAdapter videoAdapter;
+    private List<Video> videoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,26 +51,40 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menutoolbar, menu);
 
-        List<Video> videoList = new ArrayList<>();
+        videoList = new ArrayList<>();
         videoList = VideoDatabase.getInstance(MainActivity.this).videoDAO().getListVideo();
 
-        VideoAdapter videoAdapter = new VideoAdapter(videoList, MainActivity.this);
+        videoAdapter = new VideoAdapter(videoList, MainActivity.this);
 
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                videoAdapter.getFilter().filter(query);
-                return false;
+                filterList(query);
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                videoAdapter.getFilter().filter(newText);
-                return false;
+                filterList(newText);
+                return true;
             }
         });
         return true;
+    }
+
+    private void filterList(String newText) {
+        List<Video> filteredList = new ArrayList<>();
+        for (Video video : videoList) {
+            if (video.getTitle().toLowerCase().contains(newText.toLowerCase())) {
+                filteredList.add(video);
+            }
+        }
+
+        videoAdapter.setFilteredList(filteredList);
     }
 
     @Override
@@ -111,4 +130,14 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     };
+
+    @Override
+    public void onBackPressed() {
+        if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+            return;
+        }
+        super.onBackPressed();
+
+    }
 }
