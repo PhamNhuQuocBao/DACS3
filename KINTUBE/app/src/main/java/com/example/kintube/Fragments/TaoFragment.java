@@ -3,7 +3,6 @@ package com.example.kintube.Fragments;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,32 +15,31 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.example.kintube.Activity.MainActivity;
 import com.example.kintube.DataLocal.DataLocalManager;
-import com.example.kintube.Database.VideoDatabase;
+//import com.example.kintube.Database.VideoDatabase;
 import com.example.kintube.R;
 import com.example.kintube.Model.Video.Video;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 public class TaoFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -69,6 +67,15 @@ public class TaoFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
     //Xử lí giao diện chọn video
     ActivityResultLauncher<Intent> activityResultLauncherVideo = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -91,15 +98,6 @@ public class TaoFragment extends Fragment {
                 }
             }
     );
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -175,22 +173,24 @@ public class TaoFragment extends Fragment {
             return;
         }
 
-//        LocalDateTime currentDateTime = LocalDateTime.now();
-        LocalDate currentDateTime = LocalDate.now();
-        String id = DataLocalManager.getIdAccountLogin();
-        System.out.println("id account is: " + id);
+        LocalDate currentDate = LocalDate.now();
+        String user_id = DataLocalManager.getIdAccountLogin();
+        String video_id = "video" + System.currentTimeMillis();
 
         Video video = new Video();
+        video.setId(video_id);
         video.setTitle(strName);
         video.setDescription(strDesc);
-        video.setUpload_date(String.valueOf(currentDateTime));
+        video.setUpload_date(String.valueOf(currentDate));
         video.setFile_path(linkVideo);
-        video.setUser_id(Integer.parseInt(id));
+        video.setUser_id(user_id);
 
-        VideoDatabase.getInstance(getView().getContext()).videoDAO().insertVideo(video);
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("VIDEOS").child(video_id).setValue(video);
 
         edtName.setText("");
         edtDesc.setText("");
+        videoFromGallery.setVideoURI(null);
     }
 
     private void openGalleryVideo() {

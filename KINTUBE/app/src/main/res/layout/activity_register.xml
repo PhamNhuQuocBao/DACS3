@@ -17,9 +17,9 @@
             style="@style/MaterialAlertDialog.Material3.Body.Text.CenterStacked"
             android:layout_width="321dp"
             android:layout_height="213dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="0dp"
             android:orientation="vertical"
-            android:layout_marginBottom="40dp">
+            android:layout_marginBottom="20dp">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -42,13 +42,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="53dp"
-                    android:layout_height="53dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
                     app:srcCompat="@drawable/baseline_email_24"
                     tools:ignore="MissingConstraints"
                     tools:layout_editor_absoluteX="38dp"
@@ -57,17 +57,15 @@
 
                 <EditText
                     android:id="@+id/edtEmailRegister"
-                    android:layout_width="268dp"
-                    android:layout_height="53dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:ems="10"
                     android:hint="Địa chỉ email"
                     android:inputType="textEmailAddress"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="101dp"
-                    tools:layout_editor_absoluteY="358dp" />
+                    tools:ignore="MissingConstraints"/>
             </LinearLayout>
-        </LinearLayout> <LinearLayout
+        </LinearLayout>
+        <LinearLayout
             style="@style/MaterialAlertDialog.Material3.Body.Text.CenterStacked"
             android:layout_width="match_parent"
             android:layout_height="73dp"
@@ -75,30 +73,54 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/nameView"
-                    android:layout_width="53dp"
-                    android:layout_height="53dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
                     app:srcCompat="@drawable/profile_default_black"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="38dp"
-                    tools:layout_editor_absoluteY="358dp" />
+                    tools:ignore="MissingConstraints"/>
 
 
                 <EditText
                     android:id="@+id/edtNameRegister"
-                    android:layout_width="268dp"
-                    android:layout_height="53dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:ems="10"
                     android:hint="Họ và tên"
                     android:inputType="textEmailAddress"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="101dp"
-                    tools:layout_editor_absoluteY="358dp" />
+                    tools:ignore="MissingConstraints"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            style="@style/MaterialAlertDialog.Material3.Body.Text.CenterStacked"
+            android:layout_width="match_parent"
+            android:layout_height="73dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/phoneView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    app:srcCompat="@drawable/baseline_local_phone_24"
+                    tools:ignore="MissingConstraints" />
+
+
+                <EditText
+                    android:id="@+id/edtPhoneRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:hint="Số điện thoại"
+                    android:inputType="textEmailAddress"
+                    tools:ignore="MissingConstraints" />
             </LinearLayout>
         </LinearLayout>
 
@@ -110,29 +132,24 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="55dp"
-                    android:layout_height="48dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
                     app:srcCompat="@drawable/baseline_password_24"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="38dp"
-                    tools:layout_editor_absoluteY="440dp" />
+                    tools:ignore="MissingConstraints" />
 
                 <EditText
                     android:id="@+id/edtPasswordRegister"
-                    android:layout_width="265dp"
-                    android:layout_height="49dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:ems="10"
                     android:hint="Mật khẩu"
                     android:inputType="textPassword"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="105dp"
-                    tools:layout_editor_absoluteY="437dp" />
+                    tools:ignore="MissingConstraints" />
             </LinearLayout>
         </LinearLayout>
 
@@ -144,36 +161,31 @@
             android:orientation="horizontal">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/imageView4"
-                android:layout_width="55dp"
-                android:layout_height="48dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
                 app:srcCompat="@drawable/baseline_password_24"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="38dp"
-                tools:layout_editor_absoluteY="440dp" />
+                tools:ignore="MissingConstraints"/>
 
             <EditText
                 android:id="@+id/edtPasswordAgainRegister"
-                android:layout_width="265dp"
-                android:layout_height="49dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:ems="10"
                 android:hint="Nhập lại mật khẩu"
                 android:inputType="textPassword"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="105dp"
-                tools:layout_editor_absoluteY="437dp" />
+                tools:ignore="MissingConstraints" />
         </LinearLayout>
     </LinearLayout>
 
         <LinearLayout
             style="@style/MaterialAlertDialog.Material3.Body.Text.CenterStacked"
             android:layout_width="match_parent"
-            android:layout_height="102dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <LinearLayout

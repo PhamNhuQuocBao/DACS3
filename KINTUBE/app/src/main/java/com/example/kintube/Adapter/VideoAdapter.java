@@ -1,4 +1,4 @@
-package com.example.kintube.Model.Video;
+package com.example.kintube.Adapter;
 
 
 import android.content.Context;
@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,26 +13,26 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.kintube.DataLocal.DataLocalManager;
-import com.example.kintube.Database.UserDatabase;
-import com.example.kintube.Database.VideoDatabase;
-import com.example.kintube.MainActivity;
-import com.example.kintube.Model.Video.User.User;
+//import com.example.kintube.Database.UserDatabase;
+import com.example.kintube.Model.Video.Video;
+import com.example.kintube.Activity.VideoPlayerActivity;
+import com.example.kintube.Model.User.User;
 import com.example.kintube.R;
-import com.example.kintube.VideoPlayerActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
     private List<Video> videoList;
-    private List<Video> videoListSearch;
     private Context context;
-    private String strSearch, username;
+    private String strSearch, username, imageUser;
 
     public VideoAdapter(List<Video> videoList, Context context) {
         this.videoList = videoList;
-        this.videoListSearch = videoList;
         this.context = context;
     }
 
@@ -49,12 +47,22 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull VideoAdapter.ViewHolder holder, int position) {
         Video video = videoList.get(position);
-        List<User> users = UserDatabase.getInstance(context).userDAO().getUserById(video.getUser_id());
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("USERS").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild(video.getUser_id())) {
+                    username = snapshot.child(video.getUser_id()).child("name").getValue(String.class);
+                    imageUser = snapshot.child(video.getUser_id()).child("imageUser").getValue(String.class);
+                    holder.usernameVideo.setText(username);
+                }
+            }
 
-        for (User user : users) {
-            username = user.getName();
-            holder.username.setText(user.getName());
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         holder.imageVideo.setImageResource(R.drawable.baseline_video_library_24);
         holder.titleVideo.setText(video.getTitle());
         holder.dateCreateAtVideo.setText(video.getUpload_date());
@@ -67,12 +75,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                 intent.putExtra("video_url", video.getFile_path());
                 intent.putExtra("video_name", video.getTitle());
                 intent.putExtra("video_upload_date", video.getUpload_date());
-                intent.putExtra("username", username);
+                intent.putExtra("username", holder.usernameVideo.getText());
+                intent.putExtra("video_image_user", imageUser);
 
                 context.startActivity(intent);
             }
         });
-
+//
 
     }
 
@@ -89,7 +98,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageVideo;
         public TextView titleVideo;
-        public TextView username;
+        public TextView usernameVideo;
         public TextView dateCreateAtVideo;
         public ImageView imageUserVieo;
 
@@ -98,7 +107,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             super(itemView);
             imageVideo = itemView.findViewById(R.id.imageVideo);
             titleVideo = itemView.findViewById(R.id.titleVideo);
-            username = itemView.findViewById(R.id.textUsername);
+            usernameVideo = itemView.findViewById(R.id.textUsername);
             dateCreateAtVideo = itemView.findViewById(R.id.date_create_at);
             imageUserVieo = itemView.findViewById(R.id.imageUserVideo);
         }

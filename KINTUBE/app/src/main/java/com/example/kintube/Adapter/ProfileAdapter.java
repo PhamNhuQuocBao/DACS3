@@ -1,11 +1,11 @@
-package com.example.kintube;
+package com.example.kintube.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.kintube.Fragments.ProfileFrament.VideoFragment;
+import com.example.kintube.Fragments.ProfileFrament.TabVideoFragment;
 
 
 public class ProfileAdapter extends FragmentStateAdapter {
@@ -18,15 +18,15 @@ public class ProfileAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position){
             case 0:
-                return new VideoFragment();
+                return new TabVideoFragment();
             default:
-                return new VideoFragment();
+                return new TabVideoFragment();
         }
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 1;
     }
 }
 
