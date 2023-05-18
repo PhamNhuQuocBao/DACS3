@@ -1,25 +1,21 @@
-package com.example.kintube;
+package com.example.kintube.Activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kintube.Database.VideoDatabase;
+//import com.example.kintube.Database.VideoDatabase;
 import com.example.kintube.Model.Video.Video;
-import com.example.kintube.Model.Video.VideoAdapter;
+import com.example.kintube.R;
+import com.example.kintube.Adapter.VideoAdapter;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -27,17 +23,24 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class VideoPlayerActivity extends AppCompatActivity {
 
     private PlayerView playerView;
     private SimpleExoPlayer player;
-    private String videoUrl, videoName, videoUploadDate, username;
+    private String videoUrl, videoName, videoUploadDate, username, videoImageUser;
     private RecyclerView recyclerViewVideoPlayer;
     private TextView tvVideoName, tvUploadDate, tvUsername;
+    private ImageView imageUser;
     private List<Video> videoList;
 
     @Override
@@ -51,12 +54,16 @@ public class VideoPlayerActivity extends AppCompatActivity {
         videoName = intent.getStringExtra("video_name");
         videoUploadDate = intent.getStringExtra("video_upload_date");
         username = intent.getStringExtra("username");
+        videoImageUser = intent.getStringExtra("video_image_user");
+
+        System.out.println("username2:"+username);
 
         player = new SimpleExoPlayer.Builder(this).build();
         playerView.setPlayer(player);
         tvVideoName.setText(videoName);
         tvUploadDate.setText(videoUploadDate);
         tvUsername.setText(username);
+        imageUser.setImageResource(R.drawable.profile_default);
         Uri uri = Uri.parse(videoUrl);
 
         MediaSource mediaSource = buildMediaSource(uri);
@@ -83,6 +90,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
         tvVideoName = findViewById(R.id.tvVideoName);
         tvUploadDate = findViewById(R.id.tvUploadDate);
         tvUsername = findViewById(R.id.tvUsername);
+        imageUser = findViewById(R.id.imageUserVideoPlayer);
     }
 
     public void onCreateView() {
@@ -91,10 +99,29 @@ public class VideoPlayerActivity extends AppCompatActivity {
         recyclerViewVideoPlayer.setItemAnimator(new DefaultItemAnimator());
         recyclerViewVideoPlayer.setNestedScrollingEnabled(false);
 
-        videoList = new ArrayList<>();
-        videoList = VideoDatabase.getInstance(this).videoDAO().getListVideo();
+        readData();
+    }
 
-        VideoAdapter adapter = new VideoAdapter(videoList, VideoPlayerActivity.this);
-        recyclerViewVideoPlayer.setAdapter(adapter);
+    public void readData() {
+        videoList = new ArrayList<>();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("VIDEOS").orderByChild("upload_date").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
+                    Video video = itemSnapshot.getValue(Video.class);
+                    if (!Objects.equals(videoUrl, video.getFile_path())) {
+                        videoList.add(video);
+                    }
+                }
+                VideoAdapter adapter = new VideoAdapter(videoList, VideoPlayerActivity.this);
+                recyclerViewVideoPlayer.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

@@ -1,34 +1,35 @@
-package com.example.kintube;
+package com.example.kintube.Activity;
 
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-
 import com.example.kintube.DataLocal.DataLocalManager;
-import com.example.kintube.Database.VideoDatabase;
 import com.example.kintube.Fragments.TaoFragment;
 import com.example.kintube.Fragments.ThuvienFragment;
 import com.example.kintube.Fragments.TrangchuFragment;
 import com.example.kintube.Model.Video.Video;
-import com.example.kintube.Model.Video.VideoAdapter;
+import com.example.kintube.Adapter.VideoAdapter;
+import com.example.kintube.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
-    private VideoAdapter videoAdapter;
+    private List<Video> filteredList;
     private List<Video> videoList;
 
     @Override
@@ -39,22 +40,35 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-
-        // as soon as the application opens the first
-        // fragment should be shown to the user
-        // in this case it is algorithm fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TrangchuFragment()).commit();
+
+        System.out.println("my id: " + DataLocalManager.getIdAccountLogin());
+        System.out.println("my email: " + DataLocalManager.getEmailAccountLogin());
+        System.out.println("my name: " + DataLocalManager.getNameAccountLogin());
+        System.out.println("my image: " + DataLocalManager.getImageAccountLogin());
+
+        videoList = new ArrayList<>();
+        DatabaseReference mDatabse = FirebaseDatabase.getInstance().getReference();
+        mDatabse.child("VIDEOS").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
+                    Video video = itemSnapshot.getValue(Video.class);
+                    videoList.add(video);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menutoolbar, menu);
-
-        videoList = new ArrayList<>();
-        videoList = VideoDatabase.getInstance(MainActivity.this).videoDAO().getListVideo();
-
-        videoAdapter = new VideoAdapter(videoList, MainActivity.this);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
@@ -77,14 +91,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void filterList(String newText) {
-        List<Video> filteredList = new ArrayList<>();
-        for (Video video : videoList) {
-            if (video.getTitle().toLowerCase().contains(newText.toLowerCase())) {
-                filteredList.add(video);
+            filteredList = new ArrayList<>();
+            for (Video video : videoList) {
+                if (video.getTitle().toLowerCase().contains(newText.toLowerCase())) {
+                    filteredList.add(video);
+                }
             }
-        }
-
-        videoAdapter.setFilteredList(filteredList);
+            VideoAdapter videoAdapter = new VideoAdapter(filteredList, MainActivity.this);
+            videoAdapter.setFilteredList(filteredList);
     }
 
     @Override
@@ -101,8 +115,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intentRegister);
                 break;
             case R.id.Profile:
-                Intent intentProfile = new Intent(MainActivity.this, ProfileActivity.class);
-                startActivity(intentProfile);
+                if (DataLocalManager.getEmailAccountLogin() != "") {
+                    Intent intentProfile = new Intent(MainActivity.this, ProfileActivity.class);
+                    startActivity(intentProfile);
+                } else {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
             default:
                 return super.onOptionsItemSelected(item);

@@ -8,6 +8,7 @@ public class DataLocalManager {
     private static final String ID_ACCOUNT_LOGIN = "ID_ACCOUNT_LOGIN";
     private static final String NAME_ACCOUNT_LOGIN = "NAME_ACCOUNT_LOGIN";
     private static final String EMAIL_ACCOUNT_LOGIN = "EMAIL_ACCOUNT_LOGIN";
+    private static final String IMAGE_ACCOUNT_LOGIN = "IMAGE_ACCOUNT_LOGIN";
     private static DataLocalManager instance;
     private MySharedPreference mySharedPreference;
 
@@ -46,6 +47,14 @@ public class DataLocalManager {
 
     public static String getEmailAccountLogin() {
         return DataLocalManager.getInstance().mySharedPreference.getEmailAccount(EMAIL_ACCOUNT_LOGIN);
+    }
+
+    public static void setImageAccountLogin(String image) {
+        DataLocalManager.getInstance().mySharedPreference.putImageAccount(IMAGE_ACCOUNT_LOGIN, image);
+    }
+
+    public static String getImageAccountLogin() {
+        return DataLocalManager.getInstance().mySharedPreference.getImageAccount(IMAGE_ACCOUNT_LOGIN);
     }
 
 }

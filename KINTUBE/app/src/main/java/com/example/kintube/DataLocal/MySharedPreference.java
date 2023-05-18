@@ -55,4 +55,18 @@ public class MySharedPreference {
                 Context.MODE_PRIVATE);
         return sharedPreferences.getString(key, "");
     }
+
+    public void putImageAccount(String key, String value) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MY_SHARED_PREFERENCE,
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, value);
+        editor.apply();
+    }
+
+    public String getImageAccount(String key) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MY_SHARED_PREFERENCE,
+                Context.MODE_PRIVATE);
+        return sharedPreferences.getString(key, "");
+    }
 }
