@@ -63,7 +63,8 @@ public class RegisterActivity extends AppCompatActivity {
                                         user.setName(strName);
                                         user.setPhone(strPhone);
                                         user.setPassword(strPassword);
-                                        user.setImageUser(IMAGE_DEFAULT);
+                                        user.setSub(0);
+                                        user.setImageUser(String.valueOf(R.drawable.profile_default));
 
                                         mDatabase.child("USERS").child(strId).setValue(user);
 

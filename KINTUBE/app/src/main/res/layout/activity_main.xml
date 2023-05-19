@@ -10,9 +10,9 @@
         android:layout_height="66dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:logo="@drawable/twotone_slow_motion_video_24"
+        app:logo="@mipmap/logo1"
         app:title="KINTUBE"
-        app:titleMargins="10dp">
+        app:titleMarginStart="25dp">
     </androidx.appcompat.widget.Toolbar>
         <FrameLayout
             android:id="@+id/fragment_container"

@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -132,10 +133,18 @@ public class YourVideosAdapter extends RecyclerView.Adapter<YourVideosAdapter.Vi
                 update.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Intent intent = new Intent(context, UpdateActivity.class);
-//                        context.startActivity(intent);
                         Dialog dialog = new Dialog(context);
                         dialog.setContentView(R.layout.activity_update_video);
+                        Window window = dialog.getWindow();
+                        if (window != null) {
+                            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+                            layoutParams.copyFrom(window.getAttributes());
+
+                            int width = (int) (context.getResources().getDisplayMetrics().widthPixels * 0.95); // Thiết lập chiều rộng là 80% của chiều rộng màn hình
+                            layoutParams.width = width;
+
+                            window.setAttributes(layoutParams);
+                        }
                         popupWindow.dismiss();
                         dialog.show();
 

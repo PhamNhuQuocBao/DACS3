@@ -6,6 +6,7 @@ public class User {
     private String phone;
     private String email;
     private String password;
+    private int sub;
     private String imageUser;
 
     public User() {}
@@ -56,5 +57,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getSub() {
+        return sub;
+    }
+
+    public void setSub(int sub) {
+        this.sub = sub;
     }
 }

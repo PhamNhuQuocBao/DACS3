@@ -30,6 +30,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     private List<Video> videoList;
     private Context context;
     private String strSearch, username, imageUser;
+    private int videoSub;
 
     public VideoAdapter(List<Video> videoList, Context context) {
         this.videoList = videoList;
@@ -52,9 +53,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.hasChild(video.getUser_id())) {
-                    username = snapshot.child(video.getUser_id()).child("name").getValue(String.class);
-                    imageUser = snapshot.child(video.getUser_id()).child("imageUser").getValue(String.class);
-                    holder.usernameVideo.setText(username);
+                    User user = snapshot.child(video.getUser_id()).getValue(User.class);
+                    videoSub = user.getSub();
+                    imageUser = user.getImageUser();
+                    holder.usernameVideo.setText(user.getName());
                 }
             }
 
@@ -73,10 +75,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             public void onClick(View v) {
                 Intent intent = new Intent(context, VideoPlayerActivity.class);
                 intent.putExtra("video_url", video.getFile_path());
+                intent.putExtra("video_id", video.getId());
                 intent.putExtra("video_name", video.getTitle());
                 intent.putExtra("video_upload_date", video.getUpload_date());
                 intent.putExtra("username", holder.usernameVideo.getText());
                 intent.putExtra("video_image_user", imageUser);
+                intent.putExtra("channel_id", video.getUser_id());
+                intent.putExtra("video_sub", String.valueOf(videoSub));
 
                 context.startActivity(intent);
             }
