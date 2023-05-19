@@ -40,13 +40,13 @@ import java.io.IOException;
 
 public class ProfileActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
-    private ImageView profile_image;
+    private ImageView profile_image, btn_logout;
     private TextView profile_name;
     private TabLayout tabLayout;
     private ProfileAdapter profileAdapter;
     private String uriDataImage, linkImageUser;
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,9 +56,25 @@ public class ProfileActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab_layout);
         profile_name = findViewById(R.id.profile_name);
         profile_image = findViewById(R.id.profile_image);
+        btn_logout = findViewById(R.id.btn_logout);
 
         profile_name.setText(DataLocalManager.getNameAccountLogin());
         profile_image.setImageResource(Integer.parseInt(DataLocalManager.getImageAccountLogin()));
+        
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataLocalManager.setIdAccountLogin("");
+                DataLocalManager.setEmailAccountLogin("");
+                DataLocalManager.setNameAccountLogin("");
+                DataLocalManager.setImageAccountLogin("");
+                
+                Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                startActivity(intent);
+
+                Toast.makeText(ProfileActivity.this, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         profile_image.setOnClickListener(new View.OnClickListener() {
             @Override

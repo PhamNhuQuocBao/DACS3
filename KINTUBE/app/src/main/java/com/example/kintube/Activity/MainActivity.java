@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.kintube.DataLocal.DataLocalManager;
 import com.example.kintube.Fragments.TaoFragment;
 import com.example.kintube.Fragments.ThuvienFragment;
@@ -24,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,14 +95,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void filterList(String newText) {
-            filteredList = new ArrayList<>();
-            for (Video video : videoList) {
-                if (video.getTitle().toLowerCase().contains(newText.toLowerCase())) {
-                    filteredList.add(video);
-                }
+        filteredList = new ArrayList<>();
+        for (Video video : videoList) {
+            if (video.getTitle().toLowerCase().contains(newText.toLowerCase())) {
+                filteredList.add(video);
             }
-            VideoAdapter videoAdapter = new VideoAdapter(filteredList, MainActivity.this);
-            videoAdapter.setFilteredList(filteredList);
+        }
+        VideoAdapter videoAdapter = new VideoAdapter(filteredList, MainActivity.this);
+        videoAdapter.setFilteredList(filteredList);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setAdapter(videoAdapter);
     }
 
     @Override
